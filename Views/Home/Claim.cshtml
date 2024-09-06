@@ -3,3 +3,106 @@
 *@
 @{
 }
+<div class="text-center">
+    <h1 class="display-4">Lecturer's CLaim</h1>
+</div>
+
+<body>
+    <div class="form-container">
+        <form asp-controller="Login" asp-action="Privacy" method="post">
+
+            <div class="input-field">
+                <input type="text" name="hours_worked" required>
+                <label>Hours Worked</label>
+
+            </div>
+            <div class="input-field">
+                <input type="text" name="hourly_rate" required>
+                <label>Hourly Rate</label>
+            </div>
+
+            <div class="input-field">
+                <input type="file" name="document" required>
+                <label>Document</label>
+            </div>
+
+            <div class="input-field">
+                <label>Additional Notes</label> <br/>
+                <textarea  name="notes"rows="6" cols="70"></textarea>
+            </div>
+
+
+            <div class="buttom-field">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>CLaim ID</th>
+                <th>Hourly Rate (ZAR)</th>
+                <th>Document</th>
+                <th>Additionl Notes</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>160</td>
+                <td>
+                    <form>
+                        <button>Download</button>
+                    </form>
+                </td>
+                <td>
+                    <form>
+                        <button>See notes</button>
+                    </form>
+                </td>
+                <td>Pending</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+
+<div class="text-center">
+    <h1 class="display-4">Managers and Coordinators' Claim</h1>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>CLaim ID</th>
+            <th>Hourly Rate (ZAR)</th>
+            <th>Document</th>
+            <th>Additionl Notes</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>160</td>
+        <td>
+            <form>
+                <button>Download</button>
+            </form>
+        </td>
+        <td>
+            <form>
+                <button>See notes</button>
+            </form>
+        </td>
+        <td>
+            <form>
+                <button>Approve</button>
+                <button>Reject</button>
+            </form>
+        </td>
+        </tr>
+    </tbody>
+</table>

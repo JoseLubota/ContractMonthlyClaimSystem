@@ -9,29 +9,50 @@
     </div>
     <p>Please enter your name and last name: </p>
 <body>
-        <div class="form-container">
-            <form action="About" method="post">
+          <div class="form-container">
+        <form asp-controller="Login" asp-action="Privacy" method="post">
 
-                <div class="input-field">
-                    <input type="text" name="userName" required />
-                    <label>User Name</label>
-                </div>
+            <div class="input-field">
+                <input type="text" name="fullname" required>
+                <label>Full Name</label>
+            </div>
 
-                <div class="input-field">
-                    <input type="text" name="surname" required />
-                    <label>Surname</label>
-                </div>
+            <div class="input-field">
+                <input type="text" name="email" required>
+                <label>Email</label>
+            </div>
 
-                <div class="input-field">
-                    <input type="text" name="email" required />
-                    <label>Email</label>
-                </div>
+            <div class="input-field">
+                <input type="text" name="phonenum" required>
+                <label>Phone Number</label>
+            </div>
 
-                <div class="buttom-field">
-                    <button type="submit">Submit</button>
-                </div>
-            </form>
-        </div>
+            <div class="input-field">
+                <input type="text" name="email" required>
+                <label>Address</label>
+            </div>
+
+            <div class="input-field">
+                <input type="text" name="password" required>
+                <label>Password</label>
+            </div>
+
+            <div class="input-field">
+                <label>Account Type</label>
+                <select name="accountType" required>
+                    <option value="" disabled selected></option>
+                    <option value="Lecturer">Lecturer</option>
+                    <option value="Coordinator">Coordinator</option>
+                    <option value="Manager">Manager</option>
+                </select>
+            </div>
+
+            <div class="buttom-field">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+
+    </div>
 
 
 </body>
