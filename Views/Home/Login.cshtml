@@ -6,30 +6,33 @@
 
 
 
-<div class="text-center">
-    <h1 class="display-4">Login</h1>
-    <p>If you don't have an account <a href="https://localhost:7239/Home/SignUp">Sign Up  </a>for a new account.</p>
-</div>
 
 
-<body>
-    <div class="form-container">
-        <form asp-controller="Login" asp-action="Privacy" method="post">
+<section class="page-section">
+    <body>
+        <div class="text-center">
+            <h1 class="display-4">Login</h1>
+            <p>If you don't have an account <a href="https://localhost:7239/Home/SignUp">Sign Up  </a>for a new account.</p>
+        </div>
+        <div class="form-container">
+            <form asp-controller="Login" asp-action="" method="post">
 
-            <div class="input-field">
-                <input type="text" name="email" required>
-                <label>Email</label>
+                <div class="input-field">
+                    <input type="text" name="email" required>
+                    <label>Email</label>
+                </div>
 
-            </div>
-            <div class="input-field">
-                <input type="text" name="password" required>
-                <label>Password</label>
-            </div>
+                <div class="input-field">
+                    <input type="text" name="password" required>
+                    <label>Password</label>
+                </div>
 
-            <div class="buttom-field">
-                <button type="submit">Submit</button>
-            </div>
-        </form>
+                <div class="buttom-field">
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
 
-    </div>
-</body>
+        </div>
+    </body>
+
+</section>

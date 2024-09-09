@@ -1,0 +1,100 @@
+﻿.form-container {
+    width: 700px;
+    background: rgba(255,255,255);
+    border-radius: 10px;
+    box-shadow: 1px 2px 10px white, 2px 6px 50px white;
+    padding: 50px 20px;
+    margin-inline: auto;
+    margin-top: 10px;
+}
+
+.input-field input {
+    width: 100%;
+    height: 40px;
+    background: transparent;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid red;
+    color: black;
+}
+
+.input-field {
+    position: relative;
+    margin-bottom: 30px;
+    
+}
+
+    .input-field label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: translateY(10px);
+        transition: .25s ease-in-out;
+        color: crimson;
+    }
+
+    .input-field input:focus {
+        box-shadow: 0 1px 0 0 Blue;
+        border-bottom: Blue 2px solid;
+    }
+
+.buttom-field {
+    text-align: center;
+    padding-top: 20px;
+}
+
+    .buttom-field button {
+        background: transparent;
+        padding: 15px 50px;
+        border-radius: 20px;
+        border: 2px solid;
+        padding-top: 20px;
+        cursor: pointer;
+    }
+
+file-field {
+    text-align: center;
+    padding-top: 30px;
+    padding-bottom: 20px;
+}
+.textarea-field {
+    padding-top: 20px;
+    margin: auto;
+    color:crimson;
+}
+    .textarea-field label {
+        position: absolute;
+        top: 0;
+        left: 0;
+        transform: translateY(10px);
+        transition: .25s ease-in-out;
+        color: crimson;
+    }
+.buttom-field button:hover {
+    background-color: firebrick;
+    color: white;
+    font-weight: bold;
+}
+
+.file-field input {
+    background: transparent;
+    padding: 15px 50px;
+    border-radius: 20px;
+    border: 2px solid;
+    padding-top: 20px;
+    cursor: pointer;
+    color: red;
+}
+
+.input-field input:not(:placeholder-shown) {
+    box-shadow: 0 1px 0 black;
+    border-bottom: 0 1px 0 black;
+}
+
+    .input-field input:not(:placeholder-shown) + label {
+        transform: translateY(-14px) scale(.8);
+    }
+
+.input-field input::placeholder {
+    color: lightpink;
+}
