@@ -91,9 +91,15 @@ navbar-nav flex-grow-1 {
 .table {
     color: white;
     margin-top: 90px;
-    margin-bottom: 30px;
+    margin-bottom: 90px;
 }
-
+    .table td{
+        vertical-align: middle;
+        font-size: 20px;
+    }
+    .table tr {
+        font-size: 25px;
+    }
 .page-section {
     background-color: rgb(45,45,45);
     padding: 20px;
