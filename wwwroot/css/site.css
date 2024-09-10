@@ -21,6 +21,10 @@ html {
 h1 {
     margin-top: 0px;
     padding-bottom: 20px;
+    color: white;
+}
+p {
+    color: white;
 }
 
 .title {
@@ -36,7 +40,7 @@ p {
 hearder {
     margin: 0;
     padding: 0;
-}
+} 
 
 html {
     position: relative;
@@ -51,7 +55,7 @@ img {
 body {
     margin: 0;
     padding: 0;
-    color: white;
+   
     background-color: lightgray;
     display: flex;
     flex-direction: column;
@@ -106,6 +110,7 @@ footer {
     background-color: black;
     width: 100%;
     text-align: center;
+    color: white;
 }
 
 .container {

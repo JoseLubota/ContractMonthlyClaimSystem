@@ -52,24 +52,30 @@
         cursor: pointer;
     }
 
-file-field {
-    text-align: center;
+.file-field {
     padding-top: 30px;
     padding-bottom: 20px;
 }
+    .file-field label {
+        font-weight: bold;
+        color: crimson;
+        padding-right: 60px;
+    }
+    .file-field input{
+        text-align:center;
+    }
 .textarea-field {
     padding-top: 20px;
     margin: auto;
-    color:crimson;
 }
-    .textarea-field label {
-        position: absolute;
-        top: 0;
-        left: 0;
-        transform: translateY(10px);
-        transition: .25s ease-in-out;
-        color: crimson;
-    }
+.textarea-field label {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin: auto;
+    font-weight:bold;
+    color: crimson;
+
+}
 .buttom-field button:hover {
     background-color: firebrick;
     color: white;
@@ -96,5 +102,18 @@ file-field {
     }
 
 .input-field input::placeholder {
-    color: lightpink;
+    color: crimson;
 }
+.table button{
+    background: white;
+    padding: 15px 20px;
+    border-radius: 20px;
+    border: 2px solid;
+    padding-top: 20px;
+    cursor: pointer;   
+}
+    .table button:hover {
+        background-color: firebrick;
+        color: white;
+        font-weight: bold;
+    }
