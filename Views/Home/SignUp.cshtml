@@ -10,36 +10,36 @@
     </div>
 
           <div class="form-container">
-        <form asp-controller="Login" asp-action="Privacy" method="post">
+        <form asp-controller="UserController" asp-action="SignUp" method="post">
 
             <div class="input-field">
-                <input type="text" name="fullname" required>
+                <input type="text" name="FULL_NAME" required>
                 <label>Full Name</label>
             </div>
 
             <div class="input-field">
-                <input type="text" name="email" required>
+                <input type="text" name="EMAIL" required>
                 <label>Email</label>
             </div>
 
             <div class="input-field">
-                <input type="text" name="phonenum" required>
+                <input type="text" name="PHONE_NUMBER" required>
                 <label>Phone Number</label>
             </div>
 
             <div class="input-field">
-                <input type="text" name="email" required>
+                <input type="text" name="ADDRESS" required>
                 <label>Address</label>
             </div>
 
             <div class="input-field">
-                <input type="text" name="password" required>
+                <input type="text" name="PASSWORD" required>
                 <label>Password</label>
             </div>
 
             <div class="dropdown-field">
                 <label>Account Type</label>
-                <select name="accountType" required>
+                <select name="ACCOUNT_TYPE" required>
                     <option value="" disabled selected></option>
                     <option value="Lecturer">Lecturer</option>
                     <option value="Coordinator">Coordinator</option>
