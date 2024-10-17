@@ -12,7 +12,7 @@ namespace ContractMonthlyClaimSystem.Models
             int userID = -1;
             using (SqlConnection conn = new SqlConnection(conString))
             {
-                string sql = "SELECT USERID FROM cmcs_userTBL WHERE EMAIL = @EMAIL and PASSWORD = @PASSWORD";
+                string sql = "SELECT USERID FROM cmcs_userTBL WHERE PASSWORD = @PASSWORD and  EMAIL = @EMAIL";
                 SqlCommand cmd = new SqlCommand(sql, conn);
                 cmd.Parameters.AddWithValue("@PASSWORD", PASSWORD);
                 cmd.Parameters.AddWithValue("@EMAIL", EMAIL);

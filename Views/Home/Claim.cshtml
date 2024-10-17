@@ -1,17 +1,20 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model dynamic
 @{
+    var userID = ViewData["userID"];
 }
 <section class="page-section">
-    <body>
+    @if (Convert.ToInt32(userID) > 0)
+    {
+        <p>User ID: @userID</p>
+        <p>Go to <a href="/Home/Login">logout</a>  </p>
+    }
 
     <div class="text-center">
         <h1 class="display-4">Lecturer's Claim</h1>
     </div>
 
         <div class="form-container">
-            <form asp-controller="Login" asp-action="Privacy" method="post">
+            <form asp-controller="Claim" asp-action="insertClaim" method="post">
 
                 <div class="input-field">
                     <input type="text" name="HOURS_WORKED" required>
@@ -112,5 +115,4 @@
             </tr>
         </tbody>
     </table>
-    </body>
 </section>

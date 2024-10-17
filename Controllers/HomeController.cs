@@ -17,6 +17,9 @@ namespace ContractMonthlyClaimSystem.Controllers
 
         public IActionResult Index()
         {
+            int? userID = _httpContextAccessor.HttpContext.Session.GetInt32("userID");
+            ViewData["UserID"] = userID;
+
             return View();
         }
 
@@ -27,6 +30,9 @@ namespace ContractMonthlyClaimSystem.Controllers
 
         public IActionResult Claim()
         {
+            int? userID = _httpContextAccessor.HttpContext.Session.GetInt32("userID");
+            ViewData["UserID"] = userID;
+
             return View();
         }
 
