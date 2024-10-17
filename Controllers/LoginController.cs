@@ -1,21 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ContractMonthlyClaimSystem.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace ContractMonthlyClaimSystem.Controllers
 {
     public class LoginController : Controller
     {
         private readonly LoginModel login;
-        private readonly ILogger<LoginController> _logger;
+        private readonly ILogger<HomeController> _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        private LoginController(ILogger<HomeController> logger, IHttpContextAccessor httpContextAccessor)
+        public LoginController(ILogger<HomeController> logger, IHttpContextAccessor httpContextAccessor)
         {
             login = new LoginModel();
-            _logger = (ILogger<LoginController>?)logger;
+            _logger = logger;
             _httpContextAccessor = httpContextAccessor;
         }
+
         [HttpPost]
         public ActionResult Login(string email, string password)
         {

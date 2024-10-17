@@ -23,7 +23,7 @@ namespace ContractMonthlyClaimSystem.Models
             {
                 using (SqlConnection con = new SqlConnection(conString))
                 {
-                    string sql = "INSERT INTO cmcs_userTBL (FULL_NAME, EMAIL, PHONE_NUMBER,  ADDRESS, ACCOUNT_TYPE) VALUES(@FULL_NAME, @EMAIL, @PHONE_NUMBER, @ADDRESS , @ACCOUNT_TYPE, @PASSWORD)";
+                    string sql = "INSERT INTO cmcs_userTBL (FULL_NAME, EMAIL, PHONE_NUMBER,  ADDRESS, ACCOUNT_TYPE, PASSWORD) VALUES(@FULL_NAME, @EMAIL, @PHONE_NUMBER, @ADDRESS , @ACCOUNT_TYPE, @PASSWORD)";
                     SqlCommand cmd = new SqlCommand(sql, con);
                     cmd.Parameters.AddWithValue("@FULL_NAME", u.FULL_NAME);
                     cmd.Parameters.AddWithValue("@EMAIL", u.EMAIL);

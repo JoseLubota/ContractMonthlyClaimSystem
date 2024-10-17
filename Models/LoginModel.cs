@@ -14,7 +14,7 @@ namespace ContractMonthlyClaimSystem.Models
             {
                 string sql = "SELECT USERID FROM cmcs_userTBL WHERE EMAIL = @EMAIL and PASSWORD = @PASSWORD";
                 SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@@PASSWORD", PASSWORD);
+                cmd.Parameters.AddWithValue("@PASSWORD", PASSWORD);
                 cmd.Parameters.AddWithValue("@EMAIL", EMAIL);
                 try
                 {
