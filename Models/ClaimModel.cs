@@ -50,6 +50,7 @@ namespace ContractMonthlyClaimSystem.Models
                     claim.HOURS_WORKED = Convert.ToString(reader["HOURS_WORKED"]);
                     claim.HOURLY_RATE = Convert.ToString(reader["HOURLY_RATE"]);
                     claim.EMAIL = Convert.ToString(reader["EMAIL"]);
+                    claims.Add(claim);
                 }
                 reader.Close();
             }

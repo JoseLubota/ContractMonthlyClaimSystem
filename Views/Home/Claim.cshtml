@@ -1,5 +1,6 @@
 ﻿@model dynamic
 @{
+    ViewData["Title"] = "Claim";
     var userID = ViewData["userID"];
     var claims = ViewData["Claims"] as List<ContractMonthlyClaimSystem.Models.ClaimModel>;
 }
@@ -7,7 +8,6 @@
     @if (Convert.ToInt32(userID) > 0)
     {
         <p>User ID: @userID</p>
-        <p> ID: @claims.FirstOrDefault().CLAIM_ID </p>
         <p>Go to <a href="/Home/Login">logout</a>  </p>
     }
 
