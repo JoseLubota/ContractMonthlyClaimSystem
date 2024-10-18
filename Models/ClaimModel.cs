@@ -15,8 +15,10 @@ namespace ContractMonthlyClaimSystem.Models
         public string HOURLY_RATE { get; set; }
         public string EMAIL { get; set; }
         public string PHONE_NUMBER { get; set; }
+        public string DOCUMENT_NAME { get; set; }
+        public DateTime TIMESTAMP { get; set; }
         public ClaimModel() { }
-        public ClaimModel(int cLAIM_ID, string sTATUS, int aPPROVER_ID, int lECTURER_ID, string nOTES, string hOURS_WORKED, string hOURLY_RATE, string eMAIL, string pHONE_NUMBER)
+        public ClaimModel(int cLAIM_ID, string sTATUS, int aPPROVER_ID, int lECTURER_ID, string nOTES, string hOURS_WORKED, string hOURLY_RATE, string eMAIL, string pHONE_NUMBER,string documentName, DateTime date)
         {
             CLAIM_ID = cLAIM_ID;
             STATUS = sTATUS;
@@ -27,6 +29,8 @@ namespace ContractMonthlyClaimSystem.Models
             HOURLY_RATE = hOURLY_RATE;
             EMAIL = eMAIL;
             PHONE_NUMBER = pHONE_NUMBER;
+            DOCUMENT_NAME = documentName;
+            TIMESTAMP = date;
         }
         public static List<ClaimModel> SelectClaims()
         {
@@ -35,7 +39,7 @@ namespace ContractMonthlyClaimSystem.Models
 
             using (SqlConnection con = new SqlConnection(con_string))
             {
-                string sql = "SELECT cl.CLAIM_ID, cl.STATUS, cl.HOURS_WORKED, cl.HOURLY_RATE, cl.NOTES, cl.LECTURER_ID, us.USERID, us.ACCOUNT_TYPE, us.EMAIL, cl.APPROVER_ID FROM dbo.claimTBL cl JOIN dbo.cmcs_userTBL us ON us.USERID = cl.LECTURER_ID;";
+                string sql = "SELECT cl.TIMESTAMP , cl.DOCUMENT_NAME , cl.CLAIM_ID, cl.STATUS, cl.HOURS_WORKED, cl.HOURLY_RATE, cl.NOTES, cl.LECTURER_ID, us.USERID, us.ACCOUNT_TYPE, us.EMAIL, cl.APPROVER_ID FROM dbo.claimTBL cl JOIN dbo.cmcs_userTBL us ON us.USERID = cl.LECTURER_ID;";
                 SqlCommand cmd = new SqlCommand(sql, con);
                 con.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -50,6 +54,8 @@ namespace ContractMonthlyClaimSystem.Models
                     claim.HOURS_WORKED = Convert.ToString(reader["HOURS_WORKED"]);
                     claim.HOURLY_RATE = Convert.ToString(reader["HOURLY_RATE"]);
                     claim.EMAIL = Convert.ToString(reader["EMAIL"]);
+                    claim.DOCUMENT_NAME = Convert.ToString(reader["DOCUMENT_NAME"]);
+                    claim.TIMESTAMP = Convert.ToDateTime(reader["TIMESTAMP"]);
                     claims.Add(claim);
                 }
                 reader.Close();

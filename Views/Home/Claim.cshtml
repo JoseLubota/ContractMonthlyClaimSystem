@@ -16,7 +16,7 @@
     </div>
 
         <div class="form-container">
-            <form asp-controller="Claim" asp-action="insertClaim" method="post">
+            <form asp-controller="Claim" asp-action="insertClaim" method="post" enctype="multipart/form-data">
 
                 <div class="input-field">
                     <input type="text" name="HOURS_WORKED" required>
@@ -30,7 +30,7 @@
 
                 <div class="file-field">
                     <label>Document</label>
-                    <input type="file" name="document" required>
+                    <input type="file" name="DOCUMENT" required>
                 </div>
 
                 <div class="textarea-field">
@@ -113,8 +113,9 @@
                     <td>@claim.HOURS_WORKED</td>
                     <td>@claim.HOURLY_RATE</td>
                     <td>
-                        <form>
-                            <button>Download</button>
+                        <form asp-controller="Claim" asp-action="DownloadDocument" method="post">
+                            <input type="hidden" name="fileName" value="@claim.DOCUMENT_NAME" />
+                            <button type="submit">Download</button>
                         </form>
                     </td>
                     <td>@claim.NOTES</td>

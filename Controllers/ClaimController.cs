@@ -1,4 +1,5 @@
 ﻿using ContractMonthlyClaimSystem.Models;
+using ContractMonthlyClaimSystem.Service;
 using Microsoft.AspNetCore.Mvc;
 namespace ContractMonthlyClaimSystem.Controllers
 {
@@ -8,18 +9,30 @@ namespace ContractMonthlyClaimSystem.Controllers
         public claimTBL claimtbl = new claimTBL();
         private readonly ILogger<HomeController> _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly FileService _fileService;
 
-        public ClaimController(ILogger<HomeController> logger, IHttpContextAccessor httpContextAccessor)
+        public ClaimController(ILogger<HomeController> logger, IHttpContextAccessor httpContextAccessor, FileService azureFileService)
         {
             _logger = logger;
             _httpContextAccessor = httpContextAccessor;
+            _fileService = azureFileService;
         }
         [HttpPost]
-        public ActionResult insertClaim(claimTBL Claim)
+        public async Task<ActionResult> insertClaim(claimTBL Claim, IFormFile document)
         {
+
             int? userID = _httpContextAccessor.HttpContext.Session.GetInt32("userID");
-            var result = claimtbl.insert_Claim(Claim, userID);
-            return RedirectToAction("Claim", "Home");
+            var result = await claimtbl.insert_Claim(Claim, userID,document, _fileService);
+            if(result > 0)
+            {
+                return RedirectToAction("Claim", "Home");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Unable to submit claim.Plase try again.");
+                return View();
+            }
+           
         }
 
         [HttpGet]
@@ -60,6 +73,12 @@ namespace ContractMonthlyClaimSystem.Controllers
             ViewData["Claims"] = claims;
             return View();
 
+        }
+        [HttpPost]
+        public async Task<IActionResult> DownloadDocument(string fileName)
+        {
+            var stream = await _fileService.DownloadFileAsync(fileName);
+            return File(stream, "application/octet-stream", fileName);
         }
     }
 }
