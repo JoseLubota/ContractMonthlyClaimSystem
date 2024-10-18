@@ -39,5 +39,27 @@ namespace ContractMonthlyClaimSystem.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult updateStatus(int CLAIM_ID, string STATUS)
+        {
+            
+            int? userID = _httpContextAccessor.HttpContext.Session.GetInt32("userID");
+            List<ClaimModel> claims;
+            claims = ClaimModel.updatedClaims(CLAIM_ID, STATUS);
+            ViewData["UserID"] = userID;
+            ViewData["Claims"] = claims;
+            return RedirectToAction("Claim", "Home");
+        }
+        [HttpGet]
+        public IActionResult updateStatus()
+        {
+            int? userID = _httpContextAccessor.HttpContext.Session.GetInt32("userID");
+            List<ClaimModel> claims;
+            claims = ClaimModel.SelectClaims();
+            ViewData["UserID"] = userID;
+            ViewData["Claims"] = claims;
+            return View();
+
+        }
     }
 }
