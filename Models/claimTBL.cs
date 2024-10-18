@@ -25,12 +25,13 @@ namespace ContractMonthlyClaimSystem.Models
                 int lecturerID = Convert.ToInt32(userID);
                 using (SqlConnection con = new SqlConnection(conString))
                 {
-                    string sql = "INSERT INTO claimTBL (LECTURER_ID,  NOTES, HOURS_WORKED, HOURLY_RATE) VALUES( @LECTURER_ID, @NOTES , @HOURS_WORKED, @HOURLY_RATE)";
+                    string sql = "INSERT INTO claimTBL (LECTURER_ID,  NOTES, HOURS_WORKED, HOURLY_RATE, STATUS) VALUES( @LECTURER_ID, @NOTES , @HOURS_WORKED, @HOURLY_RATE, @STATUS)";
                     SqlCommand cmd = new SqlCommand(sql, con);
                     cmd.Parameters.AddWithValue("@LECTURER_ID", lecturerID);
                     cmd.Parameters.AddWithValue("@NOTES", c.NOTES);
                     cmd.Parameters.AddWithValue("@HOURS_WORKED", c.HOURS_WORKED);
                     cmd.Parameters.AddWithValue("@HOURLY_RATE", c.HOURLY_RATE);
+                    cmd.Parameters.AddWithValue("@STATUS", "Pending");
                     con.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();
                     return rowsAffected;
