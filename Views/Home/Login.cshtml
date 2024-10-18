@@ -1,35 +1,50 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model dynamic
 @{
+    ViewData["Title"] = "Login";
+    var userID = ViewData["userID"];
 }
 
 
 <section class="page-section">
     <body>
-        <div class="text-center">
-            <h1 class="display-4">Login</h1>
-            <p>If you don't have an account <a href="https://localhost:7239/Home/SignUp">Sign Up  </a>for a new account.</p>
-        </div>
-        <div class="form-container">
-            <form asp-controller="Login" asp-action="Login" method="post">
+        @if(Convert.ToInt32(userID) == 0)
+        {
+            <div class="text-center">
+                <h1 class="display-4">Login</h1>
+                <p>If you don't have an account <a href="https://localhost:7239/Home/SignUp">Sign Up  </a>for a new account.</p>
+            </div>
+            <div class="form-container">
+                <form asp-controller="Login" asp-action="Login" method="post">
 
-                <div class="input-field">
-                    <input type="text" name="EMAIL" required>
-                    <label>Email</label>
-                </div>
+                    <div class="input-field">
+                        <input type="text" name="EMAIL" required>
+                        <label>Email</label>
+                    </div>
 
-                <div class="input-field">
-                    <input type="text" name="PASSWORD" required>
-                    <label>Password</label>
-                </div>
+                    <div class="input-field">
+                        <input type="text" name="PASSWORD" required>
+                        <label>Password</label>
+                    </div>
 
-                <div class="buttom-field">
-                    <button type="submit">Submit</button>
-                </div>
-            </form>
+                    <div class="buttom-field">
+                        <button type="submit">Submit</button>
+                    </div>
+                </form>
 
-        </div>
+            </div>
+        }
+        else
+        {
+            <div class="form-container">
+                <form asp-controller="Login" asp-action="Logout" method="post">
+                    <div class="buttom-field">
+                        <button type="submit">Logout</button>
+                    </div>
+                </form>
+
+            </div>
+        }
+        
     </body>
 
 </section>
