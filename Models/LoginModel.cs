@@ -24,18 +24,27 @@ namespace ContractMonthlyClaimSystem.Models
                     {
                         userID = Convert.ToInt32(result);
                     }
-                }
+                    else
+                    {
+                        throw new InvalidOperationException("Login Failed: Invalid email or password");
+
+                    }
+                } 
                 catch (Exception ex)
                 {
-                    throw ex;
+                    throw new InvalidOperationException("An error occured while attempting to log in");
                 }
             }
             return userID;
         }
         public string GetAccountType(int? USERID)
         {
+            if(USERID == null)
+            {
+                USERID = 0;
+            }
             string accountType = string.Empty;
-                using (SqlConnection conn = new SqlConnection(conString))
+            using (SqlConnection conn = new SqlConnection(conString))
             {
                 string sql = "SELECT ACCOUNT_TYPE FROM dbo.cmcs_userTBL WHERE USERID = @USERID";
                 SqlCommand cmd = new SqlCommand(sql, conn);

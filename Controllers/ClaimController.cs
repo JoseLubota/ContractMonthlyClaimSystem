@@ -1,4 +1,5 @@
-﻿using ContractMonthlyClaimSystem.Models;
+﻿using Azure;
+using ContractMonthlyClaimSystem.Models;
 using ContractMonthlyClaimSystem.Service;
 using Microsoft.AspNetCore.Mvc;
 namespace ContractMonthlyClaimSystem.Controllers
@@ -92,9 +93,13 @@ namespace ContractMonthlyClaimSystem.Controllers
                 return File(stream, "application/octet-stream", fileName);
 
             }
+            catch (RequestFailedException ex) when (ex.Status == 404)
+            {
+                throw new Exception($"This file '{fileName}' does not exist.");
+            }
             catch (Exception ex)
             {
-                throw ex;
+                throw new Exception("An error occured while downloading the file.", ex);
             }
             
         }

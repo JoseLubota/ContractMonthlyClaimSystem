@@ -20,8 +20,11 @@ namespace ContractMonthlyClaimSystem.Controllers
             int? userID = _httpContextAccessor.HttpContext.Session.GetInt32("userID");
             List<ClaimModel> claims;
             claims = ClaimModel.SelectClaims();
+            LoginModel userTBL = new LoginModel();
+            string accountType = userTBL.GetAccountType(userID);
             ViewData["UserID"] = userID;
             ViewData["Claims"] = claims;
+            ViewData["accountType"] = accountType;
             return View();
         }
 
@@ -35,15 +38,21 @@ namespace ContractMonthlyClaimSystem.Controllers
             int? userID = _httpContextAccessor.HttpContext.Session.GetInt32("userID");
             List<ClaimModel> claims;
             claims = ClaimModel.SelectClaims();
+            LoginModel userTBL = new LoginModel();
+            string accountType = userTBL.GetAccountType(userID);
             ViewData["Claims"] = claims;
             ViewData["UserID"] = userID;
+            ViewData["accountType"] = accountType;
             return View();
         }
 
         public IActionResult Login()
         {
             int? userID = _httpContextAccessor.HttpContext.Session.GetInt32("userID");
+            LoginModel userTBL = new LoginModel();
+            string accountType = userTBL.GetAccountType(userID);
             ViewData["UserID"] = userID;
+            ViewData["accountType"] = accountType;
             return View();
         }
         public IActionResult SignUp()
