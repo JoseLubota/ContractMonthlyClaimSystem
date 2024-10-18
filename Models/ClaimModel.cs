@@ -17,6 +17,7 @@ namespace ContractMonthlyClaimSystem.Models
         public string PHONE_NUMBER { get; set; }
         public string DOCUMENT_NAME { get; set; }
         public DateTime TIMESTAMP { get; set; }
+        public string ACCOUNT_TYPE { get; set; }
         public ClaimModel() { }
         public ClaimModel(int cLAIM_ID, string sTATUS, int aPPROVER_ID, int lECTURER_ID, string nOTES, string hOURS_WORKED, string hOURLY_RATE, string eMAIL, string pHONE_NUMBER,string documentName, DateTime date)
         {
@@ -39,7 +40,7 @@ namespace ContractMonthlyClaimSystem.Models
 
             using (SqlConnection con = new SqlConnection(con_string))
             {
-                string sql = "SELECT cl.TIMESTAMP , cl.DOCUMENT_NAME , cl.CLAIM_ID, cl.STATUS, cl.HOURS_WORKED, cl.HOURLY_RATE, cl.NOTES, cl.LECTURER_ID, us.USERID, us.ACCOUNT_TYPE, us.EMAIL, cl.APPROVER_ID FROM dbo.claimTBL cl JOIN dbo.cmcs_userTBL us ON us.USERID = cl.LECTURER_ID;";
+                string sql = "SELECT us.ACCOUNT_TYPE, cl.TIMESTAMP , cl.DOCUMENT_NAME , cl.CLAIM_ID, cl.STATUS, cl.HOURS_WORKED, cl.HOURLY_RATE, cl.NOTES, cl.LECTURER_ID, us.USERID, us.ACCOUNT_TYPE, us.EMAIL, cl.APPROVER_ID FROM dbo.claimTBL cl JOIN dbo.cmcs_userTBL us ON us.USERID = cl.LECTURER_ID;";
                 SqlCommand cmd = new SqlCommand(sql, con);
                 con.Open();
                 SqlDataReader reader = cmd.ExecuteReader();
@@ -55,6 +56,7 @@ namespace ContractMonthlyClaimSystem.Models
                     claim.HOURLY_RATE = Convert.ToString(reader["HOURLY_RATE"]);
                     claim.EMAIL = Convert.ToString(reader["EMAIL"]);
                     claim.DOCUMENT_NAME = Convert.ToString(reader["DOCUMENT_NAME"]);
+                    claim.ACCOUNT_TYPE = Convert.ToString(reader["ACCOUNT_TYPE"]);
                     claim.TIMESTAMP = Convert.ToDateTime(reader["TIMESTAMP"]);
                     claims.Add(claim);
                 }
@@ -86,5 +88,6 @@ namespace ContractMonthlyClaimSystem.Models
             }
             return claims;
         }
+        
     }
 }

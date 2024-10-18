@@ -43,7 +43,7 @@ namespace ContractMonthlyClaimSystem.Controllers
         public ActionResult Logout()
         {
             HttpContext.Session.Remove("userID");
-            return RedirectToAction("Privacy", "Home");
+            return RedirectToAction("Login", "Home");
 
         }
         public IActionResult Privacy()
@@ -52,10 +52,12 @@ namespace ContractMonthlyClaimSystem.Controllers
             if (userID == null)
             {
                 ViewData["userID"] = 0;
+                ViewData[""] = string.Empty;
             }
             else
             {
                 ViewData["userID"] = userID;
+
             }
 
             return View();

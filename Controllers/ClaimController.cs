@@ -46,9 +46,12 @@ namespace ContractMonthlyClaimSystem.Controllers
         {
             int? userID = _httpContextAccessor.HttpContext.Session.GetInt32("userID");
             List<ClaimModel> claims;
+            LoginModel userTBL = new LoginModel();
+            string accountType = userTBL.GetAccountType(userID);
             claims = ClaimModel.SelectClaims();
             ViewData["UserID"] = userID;
             ViewData["Claims"] = claims;
+            ViewData["accountType"] = accountType;
             return View();
         }
 
@@ -59,8 +62,11 @@ namespace ContractMonthlyClaimSystem.Controllers
             int? userID = _httpContextAccessor.HttpContext.Session.GetInt32("userID");
             List<ClaimModel> claims;
             claims = ClaimModel.updatedClaims(CLAIM_ID, STATUS, APPROVER_ID);
+            LoginModel userTBL = new LoginModel();
+            string accountType = userTBL.GetAccountType(userID);
             ViewData["UserID"] = userID;
             ViewData["Claims"] = claims;
+            ViewData["accountType"] = accountType;
             return RedirectToAction("Claim", "Home");
         }
         [HttpGet]
@@ -69,16 +75,28 @@ namespace ContractMonthlyClaimSystem.Controllers
             int? userID = _httpContextAccessor.HttpContext.Session.GetInt32("userID");
             List<ClaimModel> claims;
             claims = ClaimModel.SelectClaims();
+            LoginModel userTBL = new LoginModel();
+            string accountType = userTBL.GetAccountType(userID);
             ViewData["UserID"] = userID;
             ViewData["Claims"] = claims;
+            ViewData["accountType"] = accountType;
             return View();
 
         }
         [HttpPost]
         public async Task<IActionResult> DownloadDocument(string fileName)
         {
-            var stream = await _fileService.DownloadFileAsync(fileName);
-            return File(stream, "application/octet-stream", fileName);
+            try
+            {
+                var stream = await _fileService.DownloadFileAsync(fileName);
+                return File(stream, "application/octet-stream", fileName);
+
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
         }
     }
 }

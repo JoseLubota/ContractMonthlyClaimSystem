@@ -32,6 +32,31 @@ namespace ContractMonthlyClaimSystem.Models
             }
             return userID;
         }
+        public string GetAccountType(int? USERID)
+        {
+            string accountType = string.Empty;
+                using (SqlConnection conn = new SqlConnection(conString))
+            {
+                string sql = "SELECT ACCOUNT_TYPE FROM dbo.cmcs_userTBL WHERE USERID = @USERID";
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@USERID", USERID);
+                try
+                {
+                    conn.Open();
+                    object result = cmd.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        accountType = result.ToString();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
+            return accountType;
+
+        }
 
         public static SqlConnection con = new SqlConnection(conString);
     }

@@ -3,140 +3,147 @@
     ViewData["Title"] = "Claim";
     var userID = ViewData["userID"];
     var claims = ViewData["Claims"] as List<ContractMonthlyClaimSystem.Models.ClaimModel>;
+    var accountType = ViewData["accountType"];
 }
 <section class="page-section">
     @if (Convert.ToInt32(userID) > 0)
     {
         <p>User ID: @userID</p>
-        <p>Go to <a href="/Home/Login">logout</a>  </p>
+        <p>Go to <a href="/Home/Login">logout</a></p>
+
+        @if (accountType != null && Convert.ToString(accountType).Equals("Lecturer"))
+        {
+            <div class="text-center">
+                <h1 class="display-4">Submit Claim</h1>
+            </div>
+
+            <div class="form-container">
+                <form asp-controller="Claim" asp-action="insertClaim" method="post" enctype="multipart/form-data">
+
+                    <div class="input-field">
+                        <input type="text" name="HOURS_WORKED" required>
+                        <label>Hours Worked</label>
+
+                    </div>
+                    <div class="input-field">
+                        <input type="text" name="HOURLY_RATE" required>
+                        <label>Hourly Rate</label>
+                    </div>
+
+                    <div class="file-field">
+                        <label>Document</label>
+                        <input type="file" name="DOCUMENT" required>
+                    </div>
+
+                    <div class="textarea-field">
+                        <label>Additional Notes</label>
+                        <textarea name="NOTES" rows="6" cols="78"></textarea>
+                    </div>
+
+
+                    <div class="buttom-field">
+                        <button type="submit">Submit</button>
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="text-center">
+                <h1 class="display-4">Lecturers's Claims Management</h1>
+            </div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Claim ID</th>
+                        <th>Approver ID</th>
+                        <th>Hours Worked</th>
+                        <th>Hourly Rate (ZAR)</th>
+                        <th>Document</th>
+                        <th>Additionl Notes</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var claim in claims)
+                    {
+                        <tr>
+                            <td>@claim.CLAIM_ID</td>
+                            <td>@claim.APPROVER_ID</td>
+                            <td>@claim.HOURS_WORKED</td>
+                            <td>@claim.HOURLY_RATE</td>
+                            <td>
+                                <form asp-controller="Claim" asp-action="DownloadDocument" method="post">
+                                    <input type="hidden" name="fileName" value="@claim.DOCUMENT_NAME" />
+                                    <button type="submit">Download</button>
+                                </form>
+                            </td>
+                            <td>@claim.NOTES</td>
+                            <td>@claim.STATUS</td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <div class="text-center">
+                <h1 class="display-4">Managers and Coordinators' Claims Management</h1>
+            </div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Claim ID</th>
+                        <th>Lecturer ID</th>
+                        <th>Hours Worked</th>
+                        <th>Hourly Rate (ZAR)</th>
+                        <th>Document</th>
+                        <th>Additionl Notes</th>
+                        <th>Verificatiion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var claim in claims)
+                    {
+                        <tr>
+                            <td>@claim.CLAIM_ID</td>
+                            <td>@claim.LECTURER_ID</td>
+                            <td>@claim.HOURS_WORKED</td>
+                            <td>@claim.HOURLY_RATE</td>
+                            <td>
+                                <form asp-controller="Claim" asp-action="DownloadDocument" method="post">
+                                    <input type="hidden" name="fileName" value="@claim.DOCUMENT_NAME" />
+                                    <button type="submit">Download</button>
+                                </form>
+                            </td>
+                            <td>@claim.NOTES</td>
+                            <td>
+                                <form method="post" asp-controller="Claim" asp-action="updateStatus">
+                                    <input type="hidden" name="CLAIM_ID" value="@claim.CLAIM_ID" />
+                                    <input type="hidden" name="APPROVER_ID" value="@userID" />
+                                    <input type="hidden" name="STATUS" value="Approved" />
+                                    <button type="submit">Approve</button>
+                                </form>
+                                <form method="post" asp-controller="Claim" asp-action="updateStatus">
+                                    <input type="hidden" name="CLAIM_ID" value="@claim.CLAIM_ID" />
+                                    <input type="hidden" name="APPROVER_ID" value="@userID" />
+                                    <input type="hidden" name="STATUS" value="Rejected" />
+                                    <button type="submit">Reject</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            
+        }
+        
+    }else{
+        <p>Please Log in <a href="/Home/Login">click here</a>  </p>
     }
-
-    <div class="text-center">
-        <h1 class="display-4">Lecturer's Claim</h1>
-    </div>
-
-        <div class="form-container">
-            <form asp-controller="Claim" asp-action="insertClaim" method="post" enctype="multipart/form-data">
-
-                <div class="input-field">
-                    <input type="text" name="HOURS_WORKED" required>
-                    <label>Hours Worked</label> 
-
-                </div>
-                <div class="input-field">
-                    <input type="text" name="HOURLY_RATE" required>
-                    <label>Hourly Rate</label>
-                </div>
-
-                <div class="file-field">
-                    <label>Document</label>
-                    <input type="file" name="DOCUMENT" required>
-                </div>
-
-                <div class="textarea-field">
-                    <label>Additional Notes</label>
-                    <textarea name="NOTES" rows="6" cols="78"></textarea>
-                </div>
-
-
-                <div class="buttom-field">
-                    <button type="submit">Submit</button>
-                </div>
-            </form>
-
-        </div>
-
-        <div class="text-center">
-            <h1 class="display-4">Lecturers's Claims Management</h1>
-        </div>
-
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Claim ID</th>
-                    <th>Approver ID</th>
-                    <th>Hours Worked</th>
-                    <th>Hourly Rate (ZAR)</th>
-                    <th>Document</th>
-                    <th>Additionl Notes</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-            @foreach(var claim in claims)
-            {
-                <tr>
-                    <td>@claim.CLAIM_ID</td>
-                    <td>@claim.APPROVER_ID</td>
-                    <td>@claim.HOURS_WORKED</td>
-                    <td>@claim.HOURLY_RATE</td>
-                    <td>
-                        <form>
-                            <button>Download</button>
-                        </form>
-                    </td>
-                    <td>
-                        <form>
-                            <button>See notes</button>
-                        </form>
-                    </td>
-                    <td>@claim.STATUS</td>
-                </tr>
-            }
-           
-            </tbody>
-        </table>
-
-
-    <div class="text-center">
-        <h1 class="display-4">Managers and Coordinators' Claims Management</h1>
-    </div>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Claim ID</th>
-                <th>Lecturer ID</th>
-                <th>Hours Worked</th>
-                <th>Hourly Rate (ZAR)</th>
-                <th>Document</th>
-                <th>Additionl Notes</th>
-                <th>Verificatiion</th>
-            </tr>  
-        </thead>
-        <tbody>
-            @foreach(var claim in claims)
-            {
-                <tr>
-                    <td>@claim.CLAIM_ID</td>
-                    <td>@claim.LECTURER_ID</td>
-                    <td>@claim.HOURS_WORKED</td>
-                    <td>@claim.HOURLY_RATE</td>
-                    <td>
-                        <form asp-controller="Claim" asp-action="DownloadDocument" method="post">
-                            <input type="hidden" name="fileName" value="@claim.DOCUMENT_NAME" />
-                            <button type="submit">Download</button>
-                        </form>
-                    </td>
-                    <td>@claim.NOTES</td>
-                    <td>
-                        <form method="post" asp-controller="Claim" asp-action="updateStatus">
-                            <input type="hidden" name="CLAIM_ID" value="@claim.CLAIM_ID" />
-                            <input type="hidden" name="APPROVER_ID" value="@userID" />
-                            <input type="hidden" name="STATUS" value="Approved" />
-                            <button type="submit">Approve</button>
-                        </form>
-                        <form method="post" asp-controller="Claim" asp-action="updateStatus">
-                            <input type="hidden" name="CLAIM_ID" value="@claim.CLAIM_ID" />
-                            <input type="hidden" name="APPROVER_ID" value="@userID" />
-                            <input type="hidden" name="STATUS" value="Rejected" />
-                            <button type="submit">Reject</button>
-                        </form>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    
 </section>
 
 <style>
