@@ -62,11 +62,11 @@ namespace ContractMonthlyClaimSystem.Models
             }
             return claims;
         }
-        public static List<ClaimModel> updatedClaims(int CLAIM_ID, string STATUS)
+        public static List<ClaimModel> updatedClaims(int CLAIM_ID, string STATUS, int APPROVER_ID)
         {
             List<ClaimModel> claims = new List<ClaimModel>();
             string con_string = "Server=tcp:clvd-sql-server.database.windows.net,1433;Initial Catalog=clvd-db;Persist Security Info=False;User ID=Jose;Password=2004Fr@ney;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30";
-            string updateQuery = "UPDATE dbo.claimTBL SET STATUS = @STATUS WHERE CLAIM_ID = @CLAIM_ID";
+            string updateQuery = "UPDATE dbo.claimTBL SET STATUS = @STATUS, APPROVER_ID = @APPROVER_ID WHERE CLAIM_ID = @CLAIM_ID";
 
             using (SqlConnection con = new SqlConnection(con_string))
             {
@@ -74,7 +74,7 @@ namespace ContractMonthlyClaimSystem.Models
                 {
                     cmd.Parameters.AddWithValue("@STATUS", STATUS);
                     cmd.Parameters.AddWithValue("@CLAIM_ID", CLAIM_ID);
-
+                    cmd.Parameters.AddWithValue("@APPROVER_ID", APPROVER_ID);
                     con.Open();
 
                     int rowsAffected = cmd.ExecuteNonQuery();

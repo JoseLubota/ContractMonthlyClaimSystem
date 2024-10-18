@@ -53,12 +53,12 @@ namespace ContractMonthlyClaimSystem.Controllers
         }
 
         [HttpPost]
-        public IActionResult updateStatus(int CLAIM_ID, string STATUS)
+        public IActionResult updateStatus(int CLAIM_ID, string STATUS, int APPROVER_ID)
         {
             
             int? userID = _httpContextAccessor.HttpContext.Session.GetInt32("userID");
             List<ClaimModel> claims;
-            claims = ClaimModel.updatedClaims(CLAIM_ID, STATUS);
+            claims = ClaimModel.updatedClaims(CLAIM_ID, STATUS, APPROVER_ID);
             ViewData["UserID"] = userID;
             ViewData["Claims"] = claims;
             return RedirectToAction("Claim", "Home");

@@ -23,14 +23,14 @@ namespace ContractMonthlyClaimSystem.Models
             {
                 using (SqlConnection con = new SqlConnection(conString))
                 {
-                    string sql = "INSERT INTO cmcs_userTBL (STATUS, APPROVER_ID, LECTURER_ID,  NOTES, HOURS_WORKED, HOURLY_RATE) VALUES(@STATUS, @APPROVER_ID, @LECTURER_ID, @NOTES , @HOURS_WORKED, @HOURLY_RATE)";
+                     string sql = "INSERT INTO cmcs_userTBL (FULL_NAME, EMAIL, PHONE_NUMBER,  ADDRESS, ACCOUNT_TYPE, PASSWORD) VALUES(@FULL_NAME, @EMAIL, @PHONE_NUMBER, @ADDRESS , @ACCOUNT_TYPE, @PASSWORD)";
                     SqlCommand cmd = new SqlCommand(sql, con);
-                    cmd.Parameters.AddWithValue("@STATUS", u.FULL_NAME);
-                    cmd.Parameters.AddWithValue("@APPROVER_ID", u.EMAIL);
-                    cmd.Parameters.AddWithValue("@LECTURER_ID", u.PHONE_NUMBER);
-                    cmd.Parameters.AddWithValue("@NOTES", u.ADDRESS);
-                    cmd.Parameters.AddWithValue("@HOURS_WORKED", u.ACCOUNT_TYPE);
-                    cmd.Parameters.AddWithValue("@HOURLY_RATE", u.PASSWORD);
+                    cmd.Parameters.AddWithValue("@FULL_NAME", u.FULL_NAME);
+                    cmd.Parameters.AddWithValue("@EMAIL", u.EMAIL);
+                    cmd.Parameters.AddWithValue("@PHONE_NUMBER", u.PHONE_NUMBER);
+                    cmd.Parameters.AddWithValue("@ADDRESS", u.ADDRESS);
+                    cmd.Parameters.AddWithValue("@ACCOUNT_TYPE", u.ACCOUNT_TYPE);
+                    cmd.Parameters.AddWithValue("@PASSWORD", u.PASSWORD);
                     con.Open();
                     int rowsAffected = cmd.ExecuteNonQuery();
                     return rowsAffected;

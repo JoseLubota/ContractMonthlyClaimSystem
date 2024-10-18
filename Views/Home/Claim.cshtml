@@ -121,12 +121,14 @@
                     <td>@claim.NOTES</td>
                     <td>
                         <form method="post" asp-controller="Claim" asp-action="updateStatus">
-                            <input type="hidden" name="CLAIM_ID" value="@claim.CLAIM_ID"/>
+                            <input type="hidden" name="CLAIM_ID" value="@claim.CLAIM_ID" />
+                            <input type="hidden" name="APPROVER_ID" value="@userID" />
                             <input type="hidden" name="STATUS" value="Approved" />
                             <button type="submit">Approve</button>
                         </form>
                         <form method="post" asp-controller="Claim" asp-action="updateStatus">
                             <input type="hidden" name="CLAIM_ID" value="@claim.CLAIM_ID" />
+                            <input type="hidden" name="APPROVER_ID" value="@userID" />
                             <input type="hidden" name="STATUS" value="Rejected" />
                             <button type="submit">Reject</button>
                         </form>
