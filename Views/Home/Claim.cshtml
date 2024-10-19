@@ -73,10 +73,18 @@
                             <td>@claim.HOURS_WORKED</td>
                             <td>@claim.HOURLY_RATE</td>
                             <td>
-                                <form asp-controller="Claim" asp-action="DownloadDocument" method="post">
-                                    <input type="hidden" name="fileName" value="@claim.DOCUMENT_NAME" />
-                                    <button type="submit">Download</button>
-                                </form>
+                                @if (claim.DOCUMENT_NAME == string.Empty)
+                                {
+                                    <p>Not submited</p>
+                                }
+                                else
+                                {
+                                    <form asp-controller="Claim" asp-action="DownloadDocument" method="post">
+                                        <input type="hidden" name="fileName" value="@claim.DOCUMENT_NAME" />
+                                        <button type="submit">Download</button>
+                                    </form>
+
+                                }
                             </td>
                             <td>@claim.NOTES</td>
                             <td>@claim.STATUS</td>
@@ -113,10 +121,19 @@
                             <td>@claim.HOURS_WORKED</td>
                             <td>@claim.HOURLY_RATE</td>
                             <td>
-                                <form asp-controller="Claim" asp-action="DownloadDocument" method="post">
-                                    <input type="hidden" name="fileName" value="@claim.DOCUMENT_NAME" />
-                                    <button type="submit">Download</button>
-                                </form>
+                                @if(claim.DOCUMENT_NAME == string.Empty)
+                                {
+                                    <p>Not submited</p>
+                                }
+                                else
+                                {
+                                    <form asp-controller="Claim" asp-action="DownloadDocument" method="post">
+                                        <input type="hidden" name="fileName" value="@claim.DOCUMENT_NAME" />
+                                        <button type="submit">Download</button>
+                                    </form>
+                                    
+                                }
+                              
                             </td>
                             <td>@claim.NOTES</td>
                             <td>

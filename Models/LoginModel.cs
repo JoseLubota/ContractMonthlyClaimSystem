@@ -5,6 +5,16 @@ namespace ContractMonthlyClaimSystem.Models
 {
     public class LoginModel : Controller
     {
+        private readonly string _connectionString;
+        public LoginModel()
+        {
+        }
+        public LoginModel(string connection)
+        {
+            _connectionString = connection;
+        }
+       
+
         public static string conString = "Server=tcp:clvd-sql-server.database.windows.net,1433;Initial Catalog=clvd-db;Persist Security Info=False;User ID=Jose;Password=2004Fr@ney;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30";
 
         public int SelectUser(string EMAIL, string PASSWORD)
@@ -65,6 +75,40 @@ namespace ContractMonthlyClaimSystem.Models
             }
             return accountType;
 
+        }
+
+    
+
+        public int TestSelectUser(string EMAIL, string PASSWORD)
+        {
+            int userID = -1;
+            using (SqlConnection conn = new SqlConnection(_connectionString))
+            {
+                string sql = "SELECT USERID FROM cmcs_userTBL WHERE PASSWORD = @PASSWORD and  EMAIL = @EMAIL";
+                SqlCommand cmd = new SqlCommand(sql, conn);
+                cmd.Parameters.AddWithValue("@PASSWORD", PASSWORD);
+                cmd.Parameters.AddWithValue("@EMAIL", EMAIL);
+
+                try
+                {
+                    conn.Open();
+                    object result = cmd.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        userID = Convert.ToInt32(result);
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException("Login Failed: Invalid email or password");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new InvalidOperationException("An error occured while attempting to log in");
+                }
+            }
+             
+            return userID;
         }
 
         public static SqlConnection con = new SqlConnection(conString);

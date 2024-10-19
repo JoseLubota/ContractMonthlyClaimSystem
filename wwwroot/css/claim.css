@@ -118,6 +118,6 @@
         color: white;
         font-weight: bold;
     }
-.table th, .table td{
-    font-size: 15px;
+.table th, .table td, .table p{
+    font-size: 17px;
 }
