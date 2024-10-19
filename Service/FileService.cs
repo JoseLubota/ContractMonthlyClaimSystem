@@ -16,7 +16,7 @@ namespace ContractMonthlyClaimSystem.Service
         private readonly ShareServiceClient _shareServiceClient;
         private readonly IConfiguration _configuration;
         private readonly ILogger<FileService> _logger;
-
+        private IConfiguration configuration;
 
         public FileService(IConfiguration configuration, ILogger<FileService> logger)
         {
@@ -30,6 +30,12 @@ namespace ContractMonthlyClaimSystem.Service
                 throw new ArgumentException(nameof(_connectionString), "The connection is not set in the configuration");
             }
         }
+
+        public FileService(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+        }
+
         public async Task UploadFileAsync(string filePath, string fileName)
         {
             try
@@ -87,6 +93,7 @@ namespace ContractMonthlyClaimSystem.Service
                 throw new InvalidOperationException("An unexpected error occured while upload the file", ex);
             }
         }
+
 
     }
 }
