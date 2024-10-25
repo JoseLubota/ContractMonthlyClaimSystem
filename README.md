@@ -1,4 +1,6 @@
 # ContractMonthlyClaimSystem
+Azure: https://st10376126.azurewebsites.net/
+Github: https://github.com/JoseLubota/ContractMonthlyClaimSystem
 
 #  References
 
