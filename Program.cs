@@ -1,4 +1,9 @@
+using ContractMonthlyClaimSystem.Data;
+using ContractMonthlyClaimSystem.Models;
 using ContractMonthlyClaimSystem.Service;
+using Microsoft.EntityFrameworkCore;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 namespace ContractMonthlyClaimSystem
 {
     public class Program
@@ -11,17 +16,29 @@ namespace ContractMonthlyClaimSystem
             builder.Services.AddControllersWithViews();
 
 
+            //----------------------
+            builder.Services.AddDbContext<AppDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+            //--------------------
+
+            builder.Services.AddValidatorsFromAssemblyContaining<ClaimModelValidator>();
+
+
             //User Session
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            builder.Services.AddControllersWithViews();
+
 
             builder.Services.AddSingleton<FileService>();
+            builder.Services.AddScoped<IClaimService, ClaimService>();
+            builder.Services.AddScoped<claimTBL>();
+            builder.Services.AddScoped<cmcs_userTBL>();
+            builder.Services.AddScoped<IUserService, UserService>();
 
             builder.Services.AddSession(Options =>
             {
                 Options.IdleTimeout = TimeSpan.FromMinutes(120);
             });
-
+            builder.Services.AddControllersWithViews();
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
