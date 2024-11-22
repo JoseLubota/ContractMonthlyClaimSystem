@@ -1,12 +1,20 @@
 ﻿using System.Data.SqlClient;
+using System.Security.Claims;
+using ContractMonthlyClaimSystem.Data;
+using ContractMonthlyClaimSystem.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ContractMonthlyClaimSystem.Models
 {
     public class cmcs_userTBL
     {
-        public static string conString = "Server=tcp:clvd-sql-server.database.windows.net,1433;Initial Catalog=clvd-db;Persist Security Info=False;User ID=Jose;Password=2004Fr@ney;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30";
+        private readonly AppDbContext _context;
 
-        public static SqlConnection con = new SqlConnection(conString);
+        public cmcs_userTBL(AppDbContext context)
+        {
+            _context = context;
+        }
+        public cmcs_userTBL() { }
 
         public int USERID { get; set; }
         public string FULL_NAME { get; set; }
@@ -16,25 +24,37 @@ namespace ContractMonthlyClaimSystem.Models
         public string ACCOUNT_TYPE { get; set; }
         public string PASSWORD { get; set; }
 
-
-        public int insert_User(cmcs_userTBL u)
+        public async Task<int?> GetLastUserIDAsync()
         {
+            var lastUser = await _context.Users
+                .OrderByDescending(u => u.USERID)
+                .FirstOrDefaultAsync();
+
+            return lastUser == null ? 1 : lastUser.USERID + 1;
+
+        }
+        public async Task<int?> Insert_User(cmcs_userTBL u)
+        {
+
             try
             {
-                using (SqlConnection con = new SqlConnection(conString))
+
+                int? userID = await GetLastUserIDAsync();
+                u.USERID = Convert.ToInt32(userID);
+
+                var user = new cmcs_userTBLModel
                 {
-                     string sql = "INSERT INTO cmcs_userTBL (FULL_NAME, EMAIL, PHONE_NUMBER,  ADDRESS, ACCOUNT_TYPE, PASSWORD) VALUES(@FULL_NAME, @EMAIL, @PHONE_NUMBER, @ADDRESS , @ACCOUNT_TYPE, @PASSWORD)";
-                    SqlCommand cmd = new SqlCommand(sql, con);
-                    cmd.Parameters.AddWithValue("@FULL_NAME", u.FULL_NAME);
-                    cmd.Parameters.AddWithValue("@EMAIL", u.EMAIL);
-                    cmd.Parameters.AddWithValue("@PHONE_NUMBER", u.PHONE_NUMBER);
-                    cmd.Parameters.AddWithValue("@ADDRESS", u.ADDRESS);
-                    cmd.Parameters.AddWithValue("@ACCOUNT_TYPE", u.ACCOUNT_TYPE);
-                    cmd.Parameters.AddWithValue("@PASSWORD", u.PASSWORD);
-                    con.Open();
-                    int rowsAffected = cmd.ExecuteNonQuery();
-                    return rowsAffected;
-                }
+                    USERID = u.USERID,
+                    FULL_NAME = u.FULL_NAME,
+                    EMAIL = u.EMAIL,
+                    PHONE_NUMBER = u.PHONE_NUMBER,
+                    ADDRESS = u.ADDRESS,
+                    ACCOUNT_TYPE = u.ACCOUNT_TYPE,
+                    PASSWORD = u.PASSWORD,
+                };
+                _context.Users.Add(user);
+                int rowsAffected = await _context.SaveChangesAsync();
+                return rowsAffected;
 
             }
             catch (Exception ex)
@@ -43,5 +63,7 @@ namespace ContractMonthlyClaimSystem.Models
             }
 
         }
+
+
     }
 }
