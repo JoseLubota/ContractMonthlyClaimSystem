@@ -3,18 +3,22 @@ using ContractMonthlyClaimSystem.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using ContractMonthlyClaimSystem.Data;
+using System;
 
 namespace ContractMonthlyClaimSystem.Controllers
 {
+
+
     public class LoginController : Controller
     {
-        private readonly LoginModel login;
+        private readonly LoginModel _loginModel;
         private readonly ILogger<HomeController> _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public LoginController(ILogger<HomeController> logger, IHttpContextAccessor httpContextAccessor)
+        public LoginController(ILogger<HomeController> logger, IHttpContextAccessor httpContextAccessor, AppDbContext context)
         {
-            login = new LoginModel();
+            _loginModel = new LoginModel(context);
             _logger = logger;
             _httpContextAccessor = httpContextAccessor;
         }
@@ -22,21 +26,31 @@ namespace ContractMonthlyClaimSystem.Controllers
         [HttpPost]
         public ActionResult Login(string email, string password)
         {
-            var loginModel = new LoginModel();
-            int userID = loginModel.SelectUser(email, password);
-            if (userID != -1)
+            try
             {
-                //Store user ID section
-                HttpContext.Session.SetInt32("userID", userID);
-                //
-                // return RedirectToAction("Index", "Home", new { userID = userID });
+                int userID = _loginModel.SelectUser(email, password);
+                if (userID != -1)
+                {
+                    //Store user ID section
+                    HttpContext.Session.SetInt32("userID", userID);
+                    //
+                    // return RedirectToAction("Index", "Home", new { userID = userID });
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    //
+                    return View("Error");
+                }
+
+            }
+            catch (InvalidOperationException ex)
+            {
+                _logger.LogError(ex, "Login failed for {EMAIL}", email);
+                ModelState.AddModelError("", "An error occured while attempting to log in");
                 return RedirectToAction("Index", "Home");
             }
-            else
-            {
-                //
-                return View("LoginFailed");
-            }
+
         }
 
         [HttpPost]
@@ -66,4 +80,5 @@ namespace ContractMonthlyClaimSystem.Controllers
 
 
     }
+
 }
