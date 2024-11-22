@@ -4,10 +4,10 @@
     var userID = ViewData["userID"];
 }
 
-
+@Convert.ToInt32(userID)
 <section class="page-section">
     <body>
-        @if(Convert.ToInt32(userID) == 0)
+        @if (Convert.ToInt32(userID) == 0)
         {
             <div class="text-center">
                 <h1 class="display-4">Login</h1>
@@ -44,7 +44,7 @@
 
             </div>
         }
-        
+
     </body>
 
 </section>

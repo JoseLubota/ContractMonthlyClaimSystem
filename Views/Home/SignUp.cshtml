@@ -5,53 +5,53 @@
 }
 <section class="page-section">
     <body>
-    <div class="text-center" style="padding-top:40px ; padding-bottom:40px;">
-        <h1>Sign Up</h1>
-    </div>
+        <div class="text-center" style="padding-top:40px ; padding-bottom:40px;">
+            <h1>Sign Up</h1>
+        </div>
 
-          <div class="form-container">
-        <form asp-controller="User" asp-action="SignUp" method="post">
+        <div class="form-container">
+            <form asp-controller="User" asp-action="SignUp" method="post" enctype="multipart/form-data">
 
-            <div class="input-field">
-                <input type="text" name="FULL_NAME" required>
-                <label>Full Name</label>
-            </div>
+                <div class="input-field">
+                    <input type="text" name="FULL_NAME" required>
+                    <label>Full Name</label>
+                </div>
 
-            <div class="input-field">
-                <input type="text" name="EMAIL" required>
-                <label>Email</label>
-            </div>
+                <div class="input-field">
+                    <input type="text" name="EMAIL" required>
+                    <label>Email</label>
+                </div>
 
-            <div class="input-field">
-                <input type="text" name="PHONE_NUMBER" required>
-                <label>Phone Number</label>
-            </div>
+                <div class="input-field">
+                    <input type="text" name="PHONE_NUMBER" required>
+                    <label>Phone Number</label>
+                </div>
 
-            <div class="input-field">
-                <input type="text" name="ADDRESS" required>
-                <label>Address</label>
-            </div>
+                <div class="input-field">
+                    <input type="text" name="ADDRESS" required>
+                    <label>Address</label>
+                </div>
 
-            <div class="input-field">
-                <input type="text" name="PASSWORD" required>
-                <label>Password</label>
-            </div>
+                <div class="input-field">
+                    <input type="text" name="PASSWORD" required>
+                    <label>Password</label>
+                </div>
 
-            <div class="dropdown-field">
-                <label>Account Type</label>
-                <select name="ACCOUNT_TYPE" required>
-                    <option value="" disabled selected></option>
-                    <option value="Lecturer">Lecturer</option>
-                    <option value="Coordinator">Coordinator</option>
-                    <option value="Manager">Manager</option>
-                </select>
-            </div>
+                <div class="dropdown-field">
+                    <label>Account Type</label>
+                    <select name="ACCOUNT_TYPE" required>
+                        <option value="" disabled selected></option>
+                        <option value="Lecturer">Lecturer</option>
+                        <option value="Coordinator">Coordinator</option>
+                        <option value="Manager">Manager</option>
+                    </select>
+                </div>
 
-            <div class="buttom-field">
-                <button type="submit">Submit</button>
-            </div>
-        </form>
+                <div class="buttom-field">
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
 
-    </div>
-</body>
+        </div>
+    </body>
 </section>
