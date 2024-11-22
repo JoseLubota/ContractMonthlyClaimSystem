@@ -1,0 +1,72 @@
+﻿@model ContractMonthlyClaimSystem.Models.cmcs_userTBLModel
+@{
+    ViewData["Title"] = "View";
+    var userID = ViewData["userID"];
+}
+
+<section class="page-section">
+
+
+    @if (Convert.ToInt32(userID) > 0)
+    {
+        <p>Welcome Lecturer, your User ID is: @userID</p>
+        <p>Go to <a href="/Home/Login">logout</a></p>
+
+
+
+        <div class="text-center">
+            <h1 class="display-4">Edit Profile</h1>
+        </div>
+
+        <div class="form-container">
+            <form asp-controller="User" asp-action="EditProfile" method="post">
+
+                <div class="input-field">
+                    <input type="text" name="FULL_NAME" required>
+                    <label>Full Name</label>
+                </div>
+
+                <div class="input-field">
+                    <input type="text" name="EMAIL" required>
+                    <label>Email</label>
+                </div>
+
+                <div class="input-field">
+                    <input type="text" name="PHONE_NUMBER" required>
+                    <label>Phone Number</label>
+                </div>
+
+                <div class="input-field">
+                    <input type="text" name="ADDRESS" required>
+                    <label>Address</label>
+                </div>
+
+                <div class="input-field">
+                    <input type="text" name="PASSWORD" required>
+                    <label>Password</label>
+                </div>
+
+                <div class="dropdown-field">
+                    <label>Account Type</label>
+                    <select name="ACCOUNT_TYPE" required>
+                        <option value="" disabled selected></option>
+                        <option value="Lecturer">Lecturer</option>
+                        <option value="Coordinator">Coordinator</option>
+                        <option value="Manager">Manager</option>
+                    </select>
+                </div>
+
+                <div class="buttom-field">
+                    <button type="submit">Submit</button>
+                </div>
+            </form>
+
+        </div>
+
+    }
+    else
+    {
+        <p>Please Log in to access this page.</p>
+    }
+
+</section>

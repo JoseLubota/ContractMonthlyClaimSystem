@@ -1,14 +1,18 @@
 ﻿@model dynamic
+
 @{
     ViewData["Title"] = "Claim";
     var userID = ViewData["userID"];
     var claims = ViewData["Claims"] as List<ContractMonthlyClaimSystem.Models.ClaimModel>;
     var accountType = ViewData["accountType"];
+    var errorMessage = ViewData["errorMessage"] as string;
 }
 <section class="page-section">
+
     @if (Convert.ToInt32(userID) > 0)
     {
         <p>User ID: @userID</p>
+        <p>Account Type: @accountType</p>
         <p>Go to <a href="/Home/Login">logout</a></p>
 
         @if (accountType != null && Convert.ToString(accountType).Equals("Lecturer"))
@@ -20,20 +24,53 @@
             <div class="form-container">
                 <form asp-controller="Claim" asp-action="insertClaim" method="post" enctype="multipart/form-data">
 
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    @if (!string.IsNullOrEmpty(errorMessage))
+                    {
+                        <div class="alert alert-danger">
+                            @Html.Raw(errorMessage)
+                        </div>
+                    }
+
                     <div class="input-field">
-                        <input type="text" name="HOURS_WORKED" required>
+                        <input type="text" name="HOURS_WORKED" required id="hoursworked">
                         <label>Hours Worked</label>
 
                     </div>
                     <div class="input-field">
-                        <input type="text" name="HOURLY_RATE" required>
-                        <label>Hourly Rate</label><a href="c:\users\alexi\source\repos\contractmonthlyclaimsystem\views\home\claim.cshtml">c:\users\alexi\source\repos\contractmonthlyclaimsystem\views\home\claim.cshtml</a>
+                        <input type="text" name="HOURLY_RATE" required id="hourlyRate">
+                        <label>Hourly Rate</label>
                     </div>
+
+
 
                     <div class="file-field">
                         <label>Document</label>
-                        <input type="file" name="DOCUMENT" required>
+                        <input type="file" name="DOCUMENT" id="file" onchange="FileValidation()">
+                        <label id="size"> </label>
                     </div>
+                    <script>
+
+                        FileValidation = () =>{
+                            const fi = document.getElementById('file');
+                            if(fi.files.length > 0){
+                                const fsize = fi.files[0].size;
+                                const fileSizeInKb = Math.round(fsize/1024);
+
+                                if(fileSizeInKb > 4096){
+                                     alert("This file is too big, please select a file less than 4MB")
+                                     fi.value ="";
+                                }else{
+                                    document.getElementById('size').innerHTML = '<b>' + fileSizeInKb + '</b> KB'
+                                }
+
+                            }
+
+                        }
+
+
+                    </script>
 
                     <div class="textarea-field">
                         <label>Additional Notes</label>
@@ -61,6 +98,7 @@
                         <th>Hourly Rate (ZAR)</th>
                         <th>Document</th>
                         <th>Additionl Notes</th>
+                        <th>Final Payment (ZAR)</th>
                         <th>Status</th>
                     </tr>
                 </thead>
@@ -87,6 +125,12 @@
                                 }
                             </td>
                             <td>@claim.NOTES</td>
+                            <td>
+                                <span class="final-payment">
+                                    @* Empty Space*@
+                                    @(Convert.ToDouble(claim.HOURS_WORKED) * Convert.ToDouble(claim.HOURLY_RATE))
+                                </span>
+                            </td>
                             <td>@claim.STATUS</td>
                         </tr>
                     }
@@ -110,6 +154,7 @@
                         <th>Document</th>
                         <th>Additionl Notes</th>
                         <th>Verificatiion</th>
+                        <th>Download Report</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -121,7 +166,7 @@
                             <td>@claim.HOURS_WORKED</td>
                             <td>@claim.HOURLY_RATE</td>
                             <td>
-                                @if(claim.DOCUMENT_NAME == string.Empty)
+                                @if (claim.DOCUMENT_NAME == string.Empty)
                                 {
                                     <p>Not submited</p>
                                 }
@@ -131,36 +176,51 @@
                                         <input type="hidden" name="fileName" value="@claim.DOCUMENT_NAME" />
                                         <button type="submit">Download</button>
                                     </form>
-                                    
+
                                 }
-                              
+
                             </td>
                             <td>@claim.NOTES</td>
                             <td>
-                                <form method="post" asp-controller="Claim" asp-action="updateStatus">
-                                    <input type="hidden" name="CLAIM_ID" value="@claim.CLAIM_ID" />
-                                    <input type="hidden" name="APPROVER_ID" value="@userID" />
-                                    <input type="hidden" name="STATUS" value="Approved" />
-                                    <button type="submit">Approve</button>
-                                </form>
-                                <form method="post" asp-controller="Claim" asp-action="updateStatus">
-                                    <input type="hidden" name="CLAIM_ID" value="@claim.CLAIM_ID" />
-                                    <input type="hidden" name="APPROVER_ID" value="@userID" />
-                                    <input type="hidden" name="STATUS" value="Rejected" />
-                                    <button type="submit">Reject</button>
-                                </form>
+                                @if (claim.STATUS.ToLower() == "pending")
+                                {
+                                    <form method="post" asp-controller="Claim" asp-action="updateStatus">
+                                        <input type="hidden" name="CLAIM_ID" value="@claim.CLAIM_ID" />
+                                        <input type="hidden" name="APPROVER_ID" value="@userID" />
+                                        <input type="hidden" name="STATUS" value="Waiting" />
+                                        <button type="submit">Update</button>
+                                    </form>
+                                }
+                                else if (claim.STATUS.ToLower() == "approved")
+                                {
+                                    @claim.STATUS
+                                }
+                                else if (claim.STATUS.ToLower() == "rejected")
+                                {
+                                    @claim.STATUS
+                                }
+
                             </td>
+                            <td>
+                                <form method="post" asp-controller="Claim" asp-action="GenerateReport" enctype="multipart/form-data">
+                                    <input type="hidden" name="LecturerID" value="@claim.LECTURER_ID" />
+                                    <button type="submit">Download</button>
+                                </form>
+
+                            </td>
+
                         </tr>
                     }
                 </tbody>
             </table>
-            
+
         }
-        
-    }else{
+
+    }
+    else
+    {
         <p>Please Log in to enable this function <a href="/Home/Login">click here</a>  </p>
     }
-    
 </section>
 
 <style>
@@ -168,3 +228,10 @@
         color: white;
     }
 </style>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+
+}

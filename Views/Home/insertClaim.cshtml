@@ -1,0 +1,54 @@
+﻿@model ContractMonthlyClaimSystem.Models.ClaimModel;
+@{
+    ViewData["Title"] = "insertClaim";
+    var userID = ViewData["userID"];
+    var errorMessage = ViewData["errorMessage"] as string;
+    var claim = ViewData["claim"];
+}
+<section class="page-section">
+
+    <p>User ID: @userID</p>
+
+    <div class="text-center">
+        <h1 class="display-4">Resubmit Claim</h1>
+    </div>
+    <form asp-action="insertClaim" method="post" enctype="multipart/form-data">
+
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div class="alert alert-danger">
+                @Html.Raw(errorMessage)
+            </div>
+        }
+
+        <div class="form-group">
+            <input asp-for="HOURS_WORKED" class="form-control">
+            <label asp-for="HOURS_WORKED"></label>
+            <span asp-validation-for="HOURS_WORKED" class="text-danger"></span>
+        </div>
+
+
+        <div class="form-group">
+            <input asp-for="HOURLY_RATE" class="form-control">
+            <label asp-for="HOURLY_RATE"></label>
+            <span asp-validation-for="HOURLY_RATE" class="text-danger"></span>
+        </div>
+
+
+        <div class="buttom-field">
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+
+</section>
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.min.js"></script>
+
+}
+
