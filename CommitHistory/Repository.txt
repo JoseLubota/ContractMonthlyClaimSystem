@@ -1,1 +1,2 @@
 https://github.com/JoseLubota/ContractMonthlyClaimSystem
+Cloud: https://contractmonthlyclaimsystem20241120153831.azurewebsites.net/
