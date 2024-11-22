@@ -1,116 +1,70 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using ContractMonthlyClaimSystem.Data;
+using Microsoft.AspNetCore.Mvc;
 using System.Data.SqlClient;
 
 namespace ContractMonthlyClaimSystem.Models
 {
     public class LoginModel : Controller
     {
-        private readonly string _connectionString;
+        private readonly AppDbContext _context;
         public LoginModel()
         {
         }
-        public LoginModel(string connection)
+        public LoginModel(AppDbContext context)
         {
-            _connectionString = connection;
+            _context = context;
         }
-       
-
-        public static string conString = "Server=tcp:clvd-sql-server.database.windows.net,1433;Initial Catalog=clvd-db;Persist Security Info=False;User ID=Jose;Password=2004Fr@ney;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30";
 
         public int SelectUser(string EMAIL, string PASSWORD)
         {
-            int userID = -1;
-            using (SqlConnection conn = new SqlConnection(conString))
-            {
-                string sql = "SELECT USERID FROM cmcs_userTBL WHERE PASSWORD = @PASSWORD and  EMAIL = @EMAIL";
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@PASSWORD", PASSWORD);
-                cmd.Parameters.AddWithValue("@EMAIL", EMAIL);
-                try
-                {
-                    conn.Open();
-                    object result = cmd.ExecuteScalar();
-                    if (result != null && result != DBNull.Value)
-                    {
-                        userID = Convert.ToInt32(result);
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException("Login Failed: Invalid email or password");
 
-                    }
-                } 
-                catch (Exception ex)
+            try
+            {
+                var user = _context.Users
+                    .Where(u => u.EMAIL.ToLower() == EMAIL.ToLower() && u.PASSWORD.ToLower() == PASSWORD.ToLower())
+                    .Select(u => u.USERID)
+                    .FirstOrDefault();
+
+                if (user != 0)
                 {
-                    throw new InvalidOperationException("An error occured while attempting to log in");
+                    return user;
+                }
+                else
+                {
+                    throw new InvalidOperationException("Login Failed: Invalid email or password");
+
                 }
             }
-            return userID;
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Exception: {ex.Message}");
+                throw new InvalidOperationException("An error occured while attempting to log in");
+            }
+
         }
         public string GetAccountType(int? USERID)
         {
-            if(USERID == null)
             {
-                USERID = 0;
-            }
-            string accountType = string.Empty;
-            using (SqlConnection conn = new SqlConnection(conString))
-            {
-                string sql = "SELECT ACCOUNT_TYPE FROM dbo.cmcs_userTBL WHERE USERID = @USERID";
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@USERID", USERID);
+                if (_context == null)
+                {
+                    return "Not found";
+                }
                 try
                 {
-                    conn.Open();
-                    object result = cmd.ExecuteScalar();
-                    if (result != null && result != DBNull.Value)
-                    {
-                        accountType = result.ToString();
-                    }
+                    var accountType = _context.Users
+                     .Where(u => u.USERID == USERID)
+                     .Select(u => u.ACCOUNT_TYPE)
+                     .FirstOrDefault();
+
+                    return accountType ?? string.Empty;
                 }
                 catch (Exception ex)
                 {
                     throw ex;
                 }
             }
-            return accountType;
 
         }
 
-    
-
-        public int TestSelectUser(string EMAIL, string PASSWORD)
-        {
-            int userID = -1;
-            using (SqlConnection conn = new SqlConnection(_connectionString))
-            {
-                string sql = "SELECT USERID FROM cmcs_userTBL WHERE PASSWORD = @PASSWORD and  EMAIL = @EMAIL";
-                SqlCommand cmd = new SqlCommand(sql, conn);
-                cmd.Parameters.AddWithValue("@PASSWORD", PASSWORD);
-                cmd.Parameters.AddWithValue("@EMAIL", EMAIL);
-
-                try
-                {
-                    conn.Open();
-                    object result = cmd.ExecuteScalar();
-                    if (result != null && result != DBNull.Value)
-                    {
-                        userID = Convert.ToInt32(result);
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException("Login Failed: Invalid email or password");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw new InvalidOperationException("An error occured while attempting to log in");
-                }
-            }
-             
-            return userID;
-        }
-
-        public static SqlConnection con = new SqlConnection(conString);
     }
 }
