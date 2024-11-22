@@ -111,7 +111,7 @@
                             <td>@claim.HOURS_WORKED</td>
                             <td>@claim.HOURLY_RATE</td>
                             <td>
-                                @if (claim.DOCUMENT_NAME == string.Empty)
+                                @if (claim.DOCUMENT_NAME.ToLower() == "none")
                                 {
                                     <p>Not submited</p>
                                 }
