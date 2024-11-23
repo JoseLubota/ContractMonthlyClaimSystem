@@ -69,7 +69,7 @@ namespace ContractMonthlyClaimSystem.Models
 
                 var claim = new ClaimModel
                 {
-                    CLAIM_ID = Convert.ToInt32(claimID),
+                    //CLAIM_ID = Convert.ToInt32(claimID),
                     LECTURER_ID = lecturerID,
                     NOTES = c.NOTES,
                     HOURLY_RATE = c.HOURLY_RATE,
